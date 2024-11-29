@@ -1,0 +1,23 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericramirezhidalgo/html.git"
+  },
+  "author": "Eric Ramirez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericramirezhidalgo/html/issues"
+  },
+  "homepage": "https://github.com/ericramirezhidalgo/html#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0"
+  }
+}
