@@ -1,0 +1,59 @@
+<div id="container">
+    <main class="p-5 w-full">
+      <section class="bg-gradient-to-r from-cyan-500 to-blue-500 p-2 rounded-md shadow-lg text-white text-4xl font-bold text-center font-sans">
+        <h1>
+          TODO LIST
+        </h1>
+        <div class="flex justify-center mt-4">
+          <input id="todo-input" type="text" placeholder="Write your todo list here..." class="p-2 rounded-sm text-black text-xs w-3/4">
+          <button id="add-button" class="bg-white text-cyan-600 font-bold text-xs p-2 rounded-sm ml-2">ADD</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <script>
+    document.getElementById('add-button')?.addEventListener('click', async () => {
+      const inputElement = document.getElementById('todo-input');
+      const title = (inputElement as HTMLInputElement)?.value;
+  
+      if (title) {
+        const response = await fetch('http://localhost:3005/todos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title })
+        });
+        if (response.ok) {
+          const newTodo = await response.json();
+          addTodoToList(newTodo);
+          (inputElement as HTMLInputElement).value = '';
+        } else {
+          alert('Error adding todo');
+        }
+      }
+    });
+  
+    function addTodoToList(todo: { id: number; title: string; completed: boolean }) {
+      const todosContainer = document.getElementById('todos-container');
+      const todoElement = `
+        <div class="flex justify-between w-full bg-slate-200 rounded-md font-normal text-base p-2 mt-2" id="todo-${todo.id}">
+          <div class="w-1/4 text-center">${todo.id}</div>
+          <div class="w-1/4 text-center">${todo.title}</div>
+          <div class="w-1/4 text-center">${todo.completed ? 'Yes' : 'No'}</div>
+          <div class="w-1/4 text-center">
+            <button class="complete-todo m-1" data-id="${todo.id}">✅</button>
+            <button class="delete-todo m-1" data-id="${todo.id}">❌</button>
+          </div>
+        </div>
+      `;
+      todosContainer?.insertAdjacentHTML('beforeend', todoElement);
+  
+      const newDeleteButton = document.querySelector(`.delete-todo[data-id="${todo.id}"]`);
+      if (newDeleteButton) {
+        newDeleteButton.addEventListener('click', async (event) => {
+ 
+        });
+      }
+    }
+  </script>
+  

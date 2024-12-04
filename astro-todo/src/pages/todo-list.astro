@@ -1,0 +1,21 @@
+---
+import Todos from '../components/Todos.astro';
+import Top from '../components/Top.astro';
+import Layout from '../layouts/Layout.astro';
+
+let todos:any = [];
+
+(async () => {
+  const response = await fetch('http://localhost:3005/todos');
+  if (response.ok) {
+    todos = await response.json();
+  }
+})();
+---
+
+<Layout>
+  <div class="shadow-xl w-auto h-50 items-center mt-5 m-4">
+    <Top />
+    <Todos todos={todos} />
+  </div>
+</Layout>

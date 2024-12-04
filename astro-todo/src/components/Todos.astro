@@ -1,0 +1,102 @@
+---
+const { todos } = Astro.props;
+---
+<main class="p-5 w-full">
+  <section class="bg-slate-300 shadow-lg p-3 rounded-sm text-black text-4xl font-bold text-center font-sans">
+    <div class="grid grid-cols-4 mt-1 p-2 text-lg">
+      <div class="text-center">ID</div>
+      <div class="text-center">Title</div>
+      <div class="text-center">Completed</div>
+      <div class="text-center">Actions</div>
+    </div>
+    <div id="todos-container">
+      {todos.map((task: { id: number; title: string; completed: boolean; }) => (
+        <div class="flex justify-between w-full bg-slate-200 rounded-md font-normal text-base p-2 mt-2"  id={`todo-${task.id}`}>
+          <div class="w-1/4 text-center">{task.id}</div>
+          <div class="w-1/4 text-center">{task.title}</div>
+          <div class="w-1/4 text-center">{task.completed ? "Yes" : "No"}</div>
+          <div class="w-1/4 text-center">
+            <button class="complete-todo m-1" data-id={task.id}>✅</button>
+            <button class="delete-todo m-1" data-id={task.id}>❌</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const todosContainer = document.getElementById('todos-container');
+
+  todosContainer?.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.classList.contains('delete-todo')) {
+      const id = target.getAttribute('data-id');
+      if (id) {
+        deleteTodo(id);
+      }
+    }
+    if (target.classList.contains('complete-todo')) {
+      const id = target.getAttribute('data-id');
+      if (id) {
+        confirmTodo(id);
+      }
+    }
+  });
+});
+
+async function deleteTodo(id: string) {
+  const confirmed = confirm("Do you want to delete a TODO?");
+  if (confirmed) {
+    try {
+      const response = await fetch(`http://localhost:3005/todos/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (response.ok) {
+        document.getElementById(`todo-${id}`)?.remove();
+      } else {
+        console.error("Failed to delete the TODO item");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  } else {
+    console.log("Deletion cancelled");
+  }
+}
+
+async function confirmTodo(id: string) {
+  try {
+    const response = await fetch(`http://localhost:3005/todos/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: true })
+    });
+
+    if (response.ok) {
+      const todoElement = document.getElementById(`todo-${id}`);
+      if (todoElement) {
+        const titleElement = todoElement.querySelector('div:nth-child(2)') as HTMLElement;
+        const completedElement = todoElement.querySelector('div:nth-child(3)') as HTMLElement;
+        if (titleElement) {
+          titleElement.style.color = "red";
+          titleElement.style.textDecoration = "line-through";
+        }
+        if (completedElement) {
+          completedElement.innerText = "Yes";
+        }
+      }
+      console.log("Todo completed");
+    } else {
+      console.error("Failed to update the TODO item");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+</script>
