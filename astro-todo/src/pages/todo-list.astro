@@ -1,16 +1,22 @@
 ---
+
 import Todos from '../components/Todos.astro';
 import Top from '../components/Top.astro';
 import Layout from '../layouts/Layout.astro';
 
-let todos:any = [];
+let todos = [];
 
-(async () => {
+try {
   const response = await fetch('http://localhost:3005/todos');
   if (response.ok) {
     todos = await response.json();
+  } else {
+    console.error('Failed to fetch todos:', response.statusText);
   }
-})();
+} catch (error) {
+  console.error('Error fetching todos:', error);
+}
+
 ---
 
 <Layout>

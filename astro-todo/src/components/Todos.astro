@@ -11,7 +11,7 @@ const { todos } = Astro.props;
     </div>
     <div id="todos-container">
       {todos.map((task: { id: number; title: string; completed: boolean; }) => (
-        <div class="flex justify-between w-full bg-slate-200 rounded-md font-normal text-base p-2 mt-2"  id={`todo-${task.id}`}>
+        <div class="flex justify-between w-full bg-slate-200 rounded-md font-normal text-base p-2 mt-2" id={`todo-${task.id}`}>
           <div class="w-1/4 text-center">{task.id}</div>
           <div class="w-1/4 text-center">{task.title}</div>
           <div class="w-1/4 text-center">{task.completed ? "Yes" : "No"}</div>
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-async function deleteTodo(id: string) {
-  const confirmed = confirm("Do you want to delete a TODO?");
+async function deleteTodo(id:any) {
+  const confirmed = confirm("Do you want to delete this TODO?");
   if (confirmed) {
     try {
       const response = await fetch(`http://localhost:3005/todos/${id}`, {
@@ -57,7 +57,10 @@ async function deleteTodo(id: string) {
       });
 
       if (response.ok) {
-        document.getElementById(`todo-${id}`)?.remove();
+        const todoElement = document.getElementById(`todo-${id}`);
+        if (todoElement) {
+          todoElement.remove();
+        }
       } else {
         console.error("Failed to delete the TODO item");
       }
@@ -69,7 +72,7 @@ async function deleteTodo(id: string) {
   }
 }
 
-async function confirmTodo(id: string) {
+async function confirmTodo(id:any) {
   try {
     const response = await fetch(`http://localhost:3005/todos/${id}`, {
       method: 'PUT',
@@ -80,8 +83,8 @@ async function confirmTodo(id: string) {
     if (response.ok) {
       const todoElement = document.getElementById(`todo-${id}`);
       if (todoElement) {
-        const titleElement = todoElement.querySelector('div:nth-child(2)') as HTMLElement;
-        const completedElement = todoElement.querySelector('div:nth-child(3)') as HTMLElement;
+        const titleElement = todoElement.querySelector('div:nth-child(2)');
+        const completedElement = todoElement.querySelector('div:nth-child(3)');
         if (titleElement) {
           titleElement.style.color = "red";
           titleElement.style.textDecoration = "line-through";
@@ -98,5 +101,4 @@ async function confirmTodo(id: string) {
     console.error("Error:", error);
   }
 }
-
 </script>

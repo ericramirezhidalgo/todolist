@@ -17,7 +17,9 @@
   "homepage": "https://github.com/ericramirezhidalgo/html#readme",
   "description": "",
   "dependencies": {
+    "@supabase/supabase-js": "^2.46.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "express-validator": "^7.2.0"
   }
