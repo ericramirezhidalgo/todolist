@@ -31,15 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   todosContainer?.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+    const deleteButton = target.closest('.delete-todo');
+    const completeButton = target.closest('.complete-todo');
 
-    if (target.classList.contains('delete-todo')) {
-      const id = target.getAttribute('data-id');
+    if (deleteButton) {
+      const id = deleteButton.getAttribute('data-id');
       if (id) {
         deleteTodo(id);
       }
     }
-    if (target.classList.contains('complete-todo')) {
-      const id = target.getAttribute('data-id');
+    if (completeButton) {
+      const id = completeButton.getAttribute('data-id');
       if (id) {
         confirmTodo(id);
       }
@@ -47,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-async function deleteTodo(id:any) {
+async function deleteTodo(id) {
   const confirmed = confirm("Do you want to delete this TODO?");
   if (confirmed) {
     try {
@@ -72,7 +74,7 @@ async function deleteTodo(id:any) {
   }
 }
 
-async function confirmTodo(id:any) {
+async function confirmTodo(id) {
   try {
     const response = await fetch(`http://localhost:3005/todos/${id}`, {
       method: 'PUT',
@@ -101,4 +103,5 @@ async function confirmTodo(id:any) {
     console.error("Error:", error);
   }
 }
+
 </script>
