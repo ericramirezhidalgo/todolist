@@ -52,8 +52,8 @@ function addTodoToList(todo) {
       <div class="w-1/4 text-center ${completedClass}">${todo.title}</div>
       <div class="w-1/4 text-center">${todo.completed ? 'Yes' : 'No'}</div>
       <div class="w-1/4 text-center">
-        <button class="complete-todo m-1" data-id="${todo.id}">✅</button>
-        <button class="delete-todo m-1" data-id="${todo.id}">❌</button>
+        <button class="complete-todo m-1" data-id="${todo.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg></button>
+        <button class="delete-todo m-1" data-id="${todo.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
     </div>
   `;
