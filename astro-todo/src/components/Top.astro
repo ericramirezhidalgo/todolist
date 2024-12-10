@@ -43,7 +43,7 @@ document.getElementById('add-button')?.addEventListener('click', async () => {
   }
 });
 
-function addTodoToList(todo) {
+function addTodoToList(todo:any) {
   const todosContainer = document.getElementById('todos-container');
   const completedClass = todo.completed ? 'completed' : '';
   const todoElement = `
@@ -70,30 +70,32 @@ function addTodoToList(todo) {
   todosContainer?.insertAdjacentHTML('beforeend', todoElement);
 
   if (todo.completed) {
-    const titleElement = document.querySelector(`#todo-${todo.id} .text-center:nth-child(2)`);
-    if (titleElement) {
-      titleElement.style.color = "red";
-      titleElement.style.textDecoration = "line-through";
-    }
+  const titleElement = document.querySelector(`#todo-${todo.id} .text-center:nth-child(2)`) as HTMLElement;
+  if (titleElement) {
+    titleElement.style.color = "red";
+    titleElement.style.textDecoration = "line-through";
   }
 }
-
-
 
 window.addEventListener('DOMContentLoaded', async () => {
   try {
     const todosContainer = document.getElementById('todos-container');
-    todosContainer.innerHTML = ''; 
-    const response = await fetch('http://localhost:3005/todos');
-    if (response.ok) {
-      const todos = await response.json();
-      todos.forEach((todo: any) => addTodoToList(todo));
+    if (todosContainer) { 
+      todosContainer.innerHTML = ''; 
+      const response = await fetch('http://localhost:3005/todos');
+      if (response.ok) {
+        const todos = await response.json();
+        todos.forEach((todo: any) => addTodoToList(todo));
+      } else {
+        console.error('Failed to fetch todos:', response.statusText);
+      }
     } else {
-      console.error('Failed to fetch todos:', response.statusText);
+      console.error('todosContainer is null');
     }
   } catch (error) {
     console.error('Error fetching todos:', error);
     alert('Failed to connect to the server');
   }
 });
+}
 </script>

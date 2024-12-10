@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-async function deleteTodo(id) {
+async function deleteTodo(id: string) {
   const confirmed = confirm("Do you want to delete this TODO?");
   if (confirmed) {
     try {
@@ -74,7 +74,7 @@ async function deleteTodo(id) {
   }
 }
 
-async function confirmTodo(id) {
+async function confirmTodo(id: string) {
   try {
     const response = await fetch(`http://localhost:3005/todos/${id}`, {
       method: 'PUT',
@@ -85,8 +85,9 @@ async function confirmTodo(id) {
     if (response.ok) {
       const todoElement = document.getElementById(`todo-${id}`);
       if (todoElement) {
-        const titleElement = todoElement.querySelector('div:nth-child(2)');
-        const completedElement = todoElement.querySelector('div:nth-child(3)');
+        const titleElement = todoElement.querySelector('div:nth-child(2)') as HTMLDivElement;
+        const completedElement = todoElement.querySelector('div:nth-child(3)') as HTMLDivElement;
+
         if (titleElement) {
           titleElement.style.color = "red";
           titleElement.style.textDecoration = "line-through";
@@ -103,5 +104,6 @@ async function confirmTodo(id) {
     console.error("Error:", error);
   }
 }
+
 
 </script>

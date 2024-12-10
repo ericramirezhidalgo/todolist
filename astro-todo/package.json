@@ -1,7 +1,7 @@
 {
   "name": "astro-todo",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm:dev:astro\" \"npm:dev:express\"",
     "dev:astro": "astro dev --port 3006",
@@ -14,7 +14,12 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/tailwind": "^5.1.2",
     "astro": "^4.16.16",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "@supabase/supabase-js": "^2.46.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
